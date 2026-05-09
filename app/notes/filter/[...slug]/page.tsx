@@ -11,6 +11,14 @@ type Props = {
   params: Promise<{ slug: string[] }>; // params як проміс
   searchParams: Promise <{ page?: string; search?: string }>;
 };
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params
+  const note = await fetchNotes(id)
+  return {
+    title: `Note: ${note.title}`,
+    description: note.content.slice(0, 30),
+  }
+}
 
 export default async function NotesPage({ params, searchParams }: Props) {
   const queryClient = new QueryClient();
