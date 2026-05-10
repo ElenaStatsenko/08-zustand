@@ -12,13 +12,39 @@ type Props = {
   searchParams: Promise <{ page?: string; search?: string }>;
 };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params
-  const note = await fetchNotes(id)
+  const { slug } = await params;
+  const category = slug[0];
+  const filterLabel = category === "All" ? "All notes" : `${category} notes`;
+
+  const title = `${filterLabel} | NoteHub`;
+  const description =
+    category === "All"
+      ? "Browse all notes in NoteHub — a simple and efficient app for managing notes and organizing your tasks."
+      : `Browse notes filtered by category "${category}" in NoteHub — a simple and efficient app for managing notes and organizing your tasks.`;
+
+  const url = `https://notehub.vercel.app/notes/filter/${category}`;
+
   return {
-    title: `Note: ${note.title}`,
-    description: note.content.slice(0, 30),
-  }
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "NoteHub",
+      images: [
+        {
+          url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+          width: 1200,
+          height: 630,
+          alt: "NoteHub",
+        },
+      ],
+      type: "website",
+    },
+  };
 }
+
 
 export default async function NotesPage({ params, searchParams }: Props) {
   const queryClient = new QueryClient();

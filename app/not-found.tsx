@@ -10,7 +10,7 @@ export const metadata: Metadata = {
       "This page does not exist in NoteHub application.",
 
     siteName: "NoteHub",
-    url: "http://localhost:3000/",
+    url: "https://08-zustand.vercel.app/",
     images: [
       {
         url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
